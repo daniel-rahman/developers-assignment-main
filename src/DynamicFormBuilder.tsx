@@ -25,8 +25,8 @@ const DynamicFormBuilder: React.FC = () => {
   const addComponent = (type: "input" | "checkbox" | "select" | "textarea") => {
     const defaultProps = {
       input: { placeholder: "Enter text", width: "200px" },
-      checkbox: { label: "Check me", onClick: handleClick },
-      select: { options: ["Option 1", "Option 2"], onClick: handleClick },
+      checkbox: { label: "Check me", onClick: handleClick, action: 'popup' },
+      select: { options: ["Option 1", "Option 2"], onClick: handleClick, action: 'popup' },
       textarea: { placeholder: "Enter text", width: "300px", borderColor: "blue" },
     }[type];
 
@@ -37,6 +37,7 @@ const DynamicFormBuilder: React.FC = () => {
   };
 
   const updateField = (id: number, key: string, value: any) => {
+    console.log(formFields)
     setFormFields((prevFields) =>
       prevFields.map((field) =>
         field.id === id ? { ...field, props: { ...field.props, [key]: value } } : field
@@ -48,9 +49,18 @@ const DynamicFormBuilder: React.FC = () => {
     setFormFields(formFields.filter((field) => field.id !== id));
   };
 
-  const handleClick = (content: string) => {
-    setPopupContent(content);
-    setBgColor(colors[Math.floor(Math.random() * colors.length)]);
+  // const handleClick = (content: string) => {
+  //   setPopupContent(content);
+  //   setBgColor(colors[Math.floor(Math.random() * colors.length)]);
+  // };
+
+  const handleClick = (content: string, action: string) => {
+    console.log(content, action)
+    if (action === "popup") {
+      setPopupContent(content);
+    } else if (action === "color") {
+      setBgColor(colors[Math.floor(Math.random() * colors.length)]);
+    }
   };
 
   return (
